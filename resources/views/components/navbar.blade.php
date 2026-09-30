@@ -1,18 +1,27 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="{{ url('/user') }}">
-            <i class="bi bi-people-fill me-2"></i>PWL App
+        <a class="navbar-brand" href="{{ url('/user') }}">
+            <div class="brand-icon">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+            <span>PWL </span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav ms-auto gap-1">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('user') ? 'active fw-bold' : '' }}" href="{{ url('/user') }}">Daftar Pengguna</a>
+                    <a class="nav-link {{ request()->is('user') ? 'active' : '' }}" href="{{ url('/user') }}">
+                        <i class="bi bi-people-fill me-1"></i> Daftar Pengguna
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('user/create') ? 'active fw-bold' : '' }}" href="{{ route('user.create') }}">Tambah Pengguna</a>
+                    <a class="nav-link {{ request()->is('user/create') ? 'active' : '' }}" href="{{ route('user.create') }}">
+                        <i class="bi bi-person-plus-fill me-1"></i> Tambah Pengguna
+                    </a>
                 </li>
             </ul>
         </div>
