@@ -2,13 +2,14 @@
 
 <div class="card card-custom overflow-hidden">
     <div class="table-responsive">
-        <table class="table table-custom">
+        <table class="table table-custom mb-0">
             <thead>
                 <tr>
-                    <th scope="col" class="text-center" style="width: 60px;">ID</th>
+                    <th scope="col" class="text-center" style="width: 70px;">ID</th>
                     <th scope="col">Nama Mahasiswa</th>
                     <th scope="col">NPM</th>
                     <th scope="col">Kelas</th>
+                    <th scope="col" class="text-center" style="width: 160px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,10 +39,24 @@
                                 <i class="bi bi-book me-1 text-primary"></i>Kelas {{ $user->nama_kelas }}
                             </span>
                         </td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-outline-warning rounded-2 d-inline-flex align-items-center gap-1 fw-semibold" title="Edit Data">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                                <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-sm btn-outline-danger rounded-2 d-inline-flex align-items-center gap-1 fw-semibold btn-delete" data-name="mahasiswa {{ $user->nama }}" title="Hapus Data">
+                                        <i class="bi bi-trash3-fill"></i> Hapus
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center py-5">
+                        <td colspan="5" class="text-center py-5">
                             <div class="py-4">
                                 <i class="bi bi-folder-x fs-1 text-muted d-block mb-3"></i>
                                 <h6 class="fw-semibold text-dark mb-1">Belum Ada Data Pengguna</h6>

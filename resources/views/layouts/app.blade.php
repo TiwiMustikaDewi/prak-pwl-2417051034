@@ -180,6 +180,38 @@
 
     <!-- Main Content Container -->
     <main class="container py-4 flex-grow-1">
+        {{-- Flash Messages / Alert Notifikasi --}}
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm rounded-3 d-flex align-items-center gap-2 mb-4" role="alert" style="background-color: #dcfce7; color: #15803d; border-left: 4px solid #16a34a !important;">
+                <i class="bi bi-check-circle-fill fs-5"></i>
+                <div class="fw-medium">{{ session('success') }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm rounded-3 d-flex align-items-center gap-2 mb-4" role="alert" style="background-color: #fee2e2; color: #b91c1c; border-left: 4px solid #dc2626 !important;">
+                <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                <div class="fw-medium">{{ session('error') }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-warning alert-dismissible fade show border-0 shadow-sm rounded-3 mb-4" role="alert" style="background-color: #fef3c7; color: #92400e; border-left: 4px solid #d97706 !important;">
+                <div class="d-flex align-items-center gap-2 mb-1 fw-bold">
+                    <i class="bi bi-exclamation-octagon-fill fs-5"></i>
+                    <span>Terdapat Kesalahan Input:</span>
+                </div>
+                <ul class="mb-0 ps-4 small">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         @yield('content')
     </main>
 
@@ -188,5 +220,43 @@
 
     <!-- Bootstrap 5 Bundle JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Event delegation untuk tombol hapus dengan class .btn-delete
+            document.addEventListener('click', function(e) {
+                const deleteBtn = e.target.closest('.btn-delete');
+                if (deleteBtn) {
+                    e.preventDefault();
+                    const form = deleteBtn.closest('form');
+                    const itemName = deleteBtn.getAttribute('data-name') || 'data ini';
+
+                    Swal.fire({
+                        title: 'Konfirmasi Hapus',
+                        html: `Apakah Anda yakin ingin menghapus <strong>${itemName}</strong>?<br><small class="text-muted">Tindakan ini tidak dapat dibatalkan!</small>`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: '<i class="bi bi-trash3-fill me-1"></i> Ya, Hapus Data',
+                        cancelButtonText: 'Batal',
+                        reverseButtons: true,
+                        customClass: {
+                            popup: 'rounded-4 shadow-lg border-0 p-4',
+                            title: 'fw-bold text-dark fs-4 mb-2',
+                            htmlContainer: 'text-secondary fs-6 mb-3',
+                            confirmButton: 'btn btn-danger px-4 py-2 fw-semibold rounded-3 ms-2',
+                            cancelButton: 'btn btn-light border px-4 py-2 fw-semibold rounded-3 text-secondary'
+                        },
+                        buttonsStyling: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
